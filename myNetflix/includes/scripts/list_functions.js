@@ -96,3 +96,50 @@ function getSaisons(id){
 }
 
 
+function getEpisodes(id){
+	console.log(id);
+	var xmlHttpEpisodes = getAjaxRequestObject();
+	xmlHttpEpisodes.onreadystatechange = function(){
+		if (this.readyState === 4 && this.status === 200){
+			try{
+
+				var tableEpisodes = document.querySelector('#tbEpisodes');
+				tableEpisodes.style.display = '';
+
+				var text= this.responseText;
+				var lesEpisodes = JSON.parse(text);
+				lesEpisodes.sort(function(a, b){
+					if (parseInt(a.numero, 10) < parseInt(b.numero, 10)){
+						return -1;
+					}else if (parseInt(a.numero,10) > parseInt(b.numero, 10)){
+						return 1;
+					}else{
+						return 0;
+					}
+				});
+
+				var tbodyEpisodes = document.querySelector('#tbEpisodes>tbody');
+				tbodyEpisodes.innerHTML = '';
+				for(var i=0;i<lesEpisodes.length;i++) {
+
+					var row = tbodyEpisodes.insertRow(i);
+					var cellnumero = row.insertCell(0);
+					var celltitre = row.insertCell(1);
+					var cellresume = row.insertCell(2);
+
+					cellnumero.innerText = lesEpisodes[i].numero;
+					celltitre.innerText = lesEpisodes[i].titre;
+					cellresume.innerText = lesEpisodes[i].resume;
+
+				}
+			}catch (e){
+				document.querySelector('#tbEpisodes>tbody').innerHTML = ('<tr><td colspan="3">Pas d\'épisodes</td></tr>');
+			}
+		}
+	};
+	xmlHttpEpisodes.open("GET", "../api-netflix/api.php?data=episodes&idsaison=" + id);
+	xmlHttpEpisodes.send();
+}
+
+
+

@@ -12,6 +12,12 @@ if(!empty($_REQUEST)) {
         $SQLQuery = "SELECT * FROM saison WHERE idserie = :idserie";
         $SQLStmt = $dbh->prepare($SQLQuery);
         $SQLStmt->bindValue(':idserie', $ids);
+
+    } else if ($data == 'episodes') {
+        $ids = isset($_REQUEST['idsaison']) ? $_REQUEST['idsaison'] : 0;
+        $SQLQuery = "SELECT * FROM episode WHERE idsaison = :idsaison";
+        $SQLStmt = $dbh->prepare($SQLQuery);
+        $SQLStmt->bindValue(':idsaison', $ids);
     }
 
     if(!isset($SQLStmt)) {
