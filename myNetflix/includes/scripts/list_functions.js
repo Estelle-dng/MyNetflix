@@ -49,6 +49,8 @@ function getSaisons(id){
 
 				var tableSaisons = document.querySelector('#tbSaisons');
 				tableSaisons.style.display = '';
+				var tableEpisodes = document.querySelector('#tbEpisodes');
+				tableEpisodes.style.display = 'none';
 
 				var text= this.responseText;
 				var lesSaisons = JSON.parse(text);
@@ -120,6 +122,7 @@ function getEpisodes(id){
 
 				var tbodyEpisodes = document.querySelector('#tbEpisodes>tbody');
 				tbodyEpisodes.innerHTML = '';
+
 				for(var i=0;i<lesEpisodes.length;i++) {
 
 					var row = tbodyEpisodes.insertRow(i);
